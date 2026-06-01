@@ -91,7 +91,7 @@ class RetrievalHit:
 
 @dataclass(frozen=True)
 class BlockedHit:
-    source_id: str
+    blocked_ref: str
     reason: str
 
 

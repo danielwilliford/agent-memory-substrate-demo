@@ -1,6 +1,7 @@
 import json
 import subprocess
 import sys
+from pathlib import Path
 from typing import get_args
 
 import pytest
@@ -25,19 +26,17 @@ def test_research_scout_retrieves_public_semantic_memory():
 def test_quant_reviewer_gets_allowed_context_and_blocks_restricted_strategy():
     packet = retrieve_for_role("quant_strategy_reviewer", "strategy sandbox restricted paper trial")
     retrieved = set(packet.telemetry["retrieved_source_ids"])
-    blocked = set(packet.telemetry["blocked_source_ids"])
+    blocked = set(packet.telemetry["blocked_refs"])
     assert "idea-sandbox-001" in retrieved
-    assert "restricted-strategy-001" in blocked
+    assert "blocked_001" in blocked
     assert all(hit.source_id != "restricted-strategy-001" for hit in packet.hits)
 
 
 def test_blocked_context_trace_does_not_leak_body():
     review = build_review_packet("quant_strategy_reviewer", "restricted strategy note")
     blocked = review["retrieval"]["blocked"]
-    assert {
-        "source_id": "restricted-strategy-001",
-        "reason": "sensitivity_not_allowed",
-    } in blocked
+    assert any(hit["reason"] == "sensitivity_not_allowed" for hit in blocked)
+    assert all(hit["blocked_ref"].startswith("blocked_") for hit in blocked)
     serialized = json.dumps(review)
     assert "Restricted strategy boundary note" not in serialized
     assert "Unauthorized roles must never receive this body" not in serialized
@@ -120,13 +119,33 @@ def test_working_memory_never_uses_fact_store():
     )
 
 
+def test_every_record_uses_valid_source_kind_for_memory_type():
+    for record in build_demo_substrate():
+        assert record.source_kind in MEMORY_TYPE_SOURCE_KINDS[record.memory_type]
+
+
+def test_empty_record_list_stays_empty():
+    packet = retrieve_for_role("research_scout", "semantic", records=[])
+    assert packet.hits == []
+    assert packet.blocked == []
+    assert packet.telemetry["retrieved_source_ids"] == []
+    assert packet.telemetry["blocked_refs"] == []
+
+
+def test_source_refs_exist():
+    root = Path(__file__).resolve().parents[1]
+    for record in build_demo_substrate():
+        if record.source_ref != "synthetic":
+            assert (root / record.source_ref).exists(), record.source_ref
+
+
 def test_quant_strategy_reviewer_blocks_episodic_source_kinds():
     packet = retrieve_for_role(
         "quant_strategy_reviewer",
         "episodic state db session message snapshot session search tool trace prior run",
         limit=20,
     )
-    blocked = set(packet.telemetry["blocked_source_ids"])
+    blocked = set(packet.telemetry["blocked_refs"])
     episodic_records = [
         record for record in build_demo_substrate() if record.memory_type == "episodic"
     ]
@@ -134,7 +153,7 @@ def test_quant_strategy_reviewer_blocks_episodic_source_kinds():
     assert {record.source_kind for record in episodic_records} == MEMORY_TYPE_SOURCE_KINDS[
         "episodic"
     ]
-    assert {record.source_id for record in episodic_records}.issubset(blocked)
+    assert len(blocked) == len(episodic_records)
     assert all(hit.citation["memory_type"] != "episodic" for hit in packet.hits)
 
 

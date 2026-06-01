@@ -292,7 +292,8 @@ def retrieve_for_role(
         raise ValueError(f"unknown role: {role}")
     start = time.perf_counter()
     policy = ROLE_POLICIES[role]
-    records = records or build_demo_substrate()
+    if records is None:
+        records = build_demo_substrate()
     hits: list[RetrievalHit] = []
     blocked: list[BlockedHit] = []
     memory_types_checked = sorted({record.memory_type for record in records})
@@ -307,7 +308,8 @@ def retrieve_for_role(
                 record.tags,
             )
             if public_score > 0:
-                blocked.append(BlockedHit(source_id=record.source_id, reason=reason))
+                blocked_ref = f"blocked_{len(blocked) + 1:03d}"
+                blocked.append(BlockedHit(blocked_ref=blocked_ref, reason=reason))
             continue
 
         score = deterministic_similarity(query, f"{record.title} {record.content}", record.tags)
@@ -336,7 +338,7 @@ def retrieve_for_role(
             "role": role,
             "query": query,
             "retrieved_source_ids": [hit.source_id for hit in selected],
-            "blocked_source_ids": [hit.source_id for hit in blocked],
+            "blocked_refs": [hit.blocked_ref for hit in blocked],
             "latency_ms": latency_ms,
             "memory_types_checked": memory_types_checked,
             "source_kinds_checked": source_kinds_checked,
