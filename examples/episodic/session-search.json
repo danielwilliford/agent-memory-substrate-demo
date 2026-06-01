@@ -1,0 +1,7 @@
+{
+  "schema": "demo_session_search.v1",
+  "search_ref": "session_search_hash_example",
+  "result": "older episodic implementation note found",
+  "freshness": "stale",
+  "promotion_status": "requires synthesis before durable memory promotion"
+}

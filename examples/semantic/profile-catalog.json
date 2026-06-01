@@ -1,0 +1,11 @@
+{
+  "schema": "demo_profile_catalog.v1",
+  "profiles": [
+    {
+      "profile_id": "quant_strategy_reviewer",
+      "role": "reviewer",
+      "loads": ["semantic-role-index-001", "procedure-profile-map-001"]
+    }
+  ],
+  "public_boundary": "synthetic profile catalog"
+}

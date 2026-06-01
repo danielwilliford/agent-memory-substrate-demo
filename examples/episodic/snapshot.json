@@ -1,0 +1,6 @@
+{
+  "schema": "demo_snapshot.v1",
+  "snapshot_ref": "snapshot_hash_example",
+  "captured_state": "synthetic prior run context ids and decisions",
+  "promotion_status": "audit evidence"
+}

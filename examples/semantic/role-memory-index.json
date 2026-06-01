@@ -1,0 +1,8 @@
+{
+  "schema": "demo_role_memory_index.v1",
+  "role": "quant_strategy_reviewer",
+  "skills": ["sandbox-review"],
+  "canonical_notes": ["synthetic-paper-trial-boundary"],
+  "must_include": ["human approval before operational changes"],
+  "must_avoid": ["restricted strategy facts without authorization"]
+}

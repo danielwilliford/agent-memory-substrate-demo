@@ -1,0 +1,12 @@
+{
+  "source_id": "trace-tool-001",
+  "title": "Tool trace for ingestion run",
+  "status": "synthetic_success",
+  "latency_ms": 42,
+  "public_boundary": "synthetic demo trace; no external service call",
+  "tags": [
+    "tool trace",
+    "ingestion",
+    "telemetry"
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "schema": "demo_session_message.v1",
+  "message_ref": "message_hash_example",
+  "event": "synthetic prior message requested a review packet",
+  "promotion_status": "episodic evidence only"
+}

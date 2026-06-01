@@ -1,0 +1,7 @@
+{
+  "schema": "demo_profile_map.v1",
+  "role": "quant_strategy_reviewer",
+  "procedure_sets": ["sandbox-review", "paper-trial-runbook"],
+  "approval_gates": ["human approval before operational change"],
+  "public_boundary": "synthetic profile-to-procedure map"
+}

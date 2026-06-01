@@ -1,0 +1,8 @@
+{
+  "schema": "demo_working_context.v1",
+  "role": "quant_strategy_reviewer",
+  "task": "Review synthetic paper-trial context",
+  "selected_context_ids": ["procedure-sandbox-001", "semantic-role-index-001"],
+  "blocked_context_ids": ["restricted-strategy-001"],
+  "human_review_required": true
+}

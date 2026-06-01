@@ -1,0 +1,6 @@
+{
+  "schema": "demo_semantic_fact.v1",
+  "semantic_key": "memory:review-boundary",
+  "fact": "Retrieved memory can support review packets, but operational changes require human approval.",
+  "source_pointer": "synthetic canonical note"
+}
