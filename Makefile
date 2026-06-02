@@ -1,4 +1,4 @@
-.PHONY: test lint format-check demo verify clean
+.PHONY: test lint format-check demo reports verify clean
 
 test:
 	python -m pytest
@@ -12,7 +12,10 @@ format-check:
 demo:
 	python -m agent_memory_substrate.demo
 
-verify: test lint format-check demo
+reports:
+	python -m agent_memory_substrate.control_reports --out examples/control_reports
+
+verify: reports test lint format-check demo
 
 clean:
 	rm -rf .pytest_cache .ruff_cache build dist *.egg-info

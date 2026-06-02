@@ -1,0 +1,115 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "title": "Memory Control Report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "artifact_type",
+    "reviewed_at",
+    "case_count",
+    "passed_count",
+    "failed_count",
+    "all_passed",
+    "review_required_count",
+    "failed_closed_count",
+    "blocked_ref_count",
+    "stale_source_count",
+    "restricted_leak_count",
+    "blocked_reason_counts",
+    "cases"
+  ],
+  "properties": {
+    "artifact_type": {"const": "memory_control_report"},
+    "reviewed_at": {"type": "string"},
+    "case_count": {"type": "integer", "minimum": 0},
+    "passed_count": {"type": "integer", "minimum": 0},
+    "failed_count": {"type": "integer", "minimum": 0},
+    "all_passed": {"type": "boolean"},
+    "review_required_count": {"type": "integer", "minimum": 0},
+    "failed_closed_count": {"type": "integer", "minimum": 0},
+    "blocked_ref_count": {"type": "integer", "minimum": 0},
+    "stale_source_count": {"type": "integer", "minimum": 0},
+    "restricted_leak_count": {"type": "integer", "minimum": 0},
+    "blocked_reason_counts": {
+      "type": "object",
+      "additionalProperties": {"type": "integer", "minimum": 0}
+    },
+    "cases": {
+      "type": "array",
+      "items": {"$ref": "#/definitions/case"}
+    }
+  },
+  "definitions": {
+    "case": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "case_id",
+        "role",
+        "query",
+        "expectation",
+        "passed",
+        "checks",
+        "observed"
+      ],
+      "properties": {
+        "case_id": {"type": "string"},
+        "role": {"type": "string"},
+        "query": {"type": "string"},
+        "expectation": {"type": "string"},
+        "passed": {"type": "boolean"},
+        "checks": {
+          "type": "object",
+          "additionalProperties": {"type": "boolean"}
+        },
+        "observed": {"$ref": "#/definitions/observed"}
+      }
+    },
+    "observed": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "error",
+        "retrieved_source_ids",
+        "blocked_refs",
+        "blocked_reasons",
+        "stale_source_ids",
+        "review_required",
+        "restricted_content_leaked",
+        "memory_types_checked",
+        "source_kinds_checked"
+      ],
+      "properties": {
+        "status": {"enum": ["ok", "failed_closed"]},
+        "error": {"type": ["string", "null"]},
+        "retrieved_source_ids": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "blocked_refs": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "blocked_reasons": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "stale_source_ids": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "review_required": {"type": "boolean"},
+        "restricted_content_leaked": {"type": "boolean"},
+        "memory_types_checked": {
+          "type": "array",
+          "items": {"type": "string"}
+        },
+        "source_kinds_checked": {
+          "type": "array",
+          "items": {"type": "string"}
+        }
+      }
+    }
+  }
+}

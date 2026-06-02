@@ -16,6 +16,7 @@ dependencies = []
 dev = [
   "pytest>=8",
   "ruff>=0.4",
+  "jsonschema>=4",
 ]
 
 [tool.setuptools.packages.find]

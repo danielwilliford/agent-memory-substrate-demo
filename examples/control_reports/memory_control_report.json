@@ -1,0 +1,207 @@
+{
+  "all_passed": true,
+  "artifact_type": "memory_control_report",
+  "blocked_reason_counts": {
+    "sensitivity_not_allowed": 3
+  },
+  "blocked_ref_count": 3,
+  "case_count": 4,
+  "cases": [
+    {
+      "case_id": "memory_research_scout_semantic",
+      "checks": {
+        "expected_blocked_reason_present": true,
+        "expected_retrieved_present": true,
+        "restricted_content_redacted": true,
+        "review_required_matches": true
+      },
+      "expectation": "research scout retrieves allowed semantic context while restricted candidates remain redacted and trigger review",
+      "observed": {
+        "blocked_reasons": [
+          "sensitivity_not_allowed"
+        ],
+        "blocked_refs": [
+          "blocked_001"
+        ],
+        "error": null,
+        "memory_types_checked": [
+          "episodic",
+          "procedural",
+          "semantic",
+          "working"
+        ],
+        "restricted_content_leaked": false,
+        "retrieved_source_ids": [
+          "vault-research-001",
+          "semantic-canonical-note-001",
+          "semantic-fact-001",
+          "semantic-role-index-001"
+        ],
+        "review_required": true,
+        "source_kinds_checked": [
+          "canonical_note",
+          "fact_store",
+          "injected_context",
+          "profile_catalog",
+          "profile_map",
+          "role_index",
+          "run_context",
+          "runbook",
+          "session_message",
+          "session_search",
+          "skill",
+          "snapshot",
+          "state_db",
+          "tool_trace",
+          "vault_note"
+        ],
+        "stale_source_ids": [],
+        "status": "ok"
+      },
+      "passed": true,
+      "query": "semantic research ideas with citation freshness",
+      "role": "research_scout"
+    },
+    {
+      "case_id": "memory_quant_blocks_restricted",
+      "checks": {
+        "expected_blocked_reason_present": true,
+        "expected_retrieved_present": true,
+        "restricted_content_redacted": true,
+        "review_required_matches": true
+      },
+      "expectation": "quant reviewer receives sandbox procedure but restricted strategy memory is redacted",
+      "observed": {
+        "blocked_reasons": [
+          "sensitivity_not_allowed"
+        ],
+        "blocked_refs": [
+          "blocked_001"
+        ],
+        "error": null,
+        "memory_types_checked": [
+          "episodic",
+          "procedural",
+          "semantic",
+          "working"
+        ],
+        "restricted_content_leaked": false,
+        "retrieved_source_ids": [
+          "idea-sandbox-001",
+          "procedure-sandbox-001"
+        ],
+        "review_required": true,
+        "source_kinds_checked": [
+          "canonical_note",
+          "fact_store",
+          "injected_context",
+          "profile_catalog",
+          "profile_map",
+          "role_index",
+          "run_context",
+          "runbook",
+          "session_message",
+          "session_search",
+          "skill",
+          "snapshot",
+          "state_db",
+          "tool_trace",
+          "vault_note"
+        ],
+        "stale_source_ids": [],
+        "status": "ok"
+      },
+      "passed": true,
+      "query": "strategy sandbox restricted paper trial",
+      "role": "quant_strategy_reviewer"
+    },
+    {
+      "case_id": "memory_research_scout_stale_episodic",
+      "checks": {
+        "expected_retrieved_present": true,
+        "no_required_blocked_reason": true,
+        "restricted_content_redacted": true,
+        "review_required_matches": true
+      },
+      "expectation": "stale episodic memory should be labeled and require review",
+      "observed": {
+        "blocked_reasons": [
+          "sensitivity_not_allowed"
+        ],
+        "blocked_refs": [
+          "blocked_001"
+        ],
+        "error": null,
+        "memory_types_checked": [
+          "episodic",
+          "procedural",
+          "semantic",
+          "working"
+        ],
+        "restricted_content_leaked": false,
+        "retrieved_source_ids": [
+          "idea-stale-001",
+          "vault-research-001",
+          "semantic-canonical-note-001",
+          "episodic-state-001"
+        ],
+        "review_required": true,
+        "source_kinds_checked": [
+          "canonical_note",
+          "fact_store",
+          "injected_context",
+          "profile_catalog",
+          "profile_map",
+          "role_index",
+          "run_context",
+          "runbook",
+          "session_message",
+          "session_search",
+          "skill",
+          "snapshot",
+          "state_db",
+          "tool_trace",
+          "vault_note"
+        ],
+        "stale_source_ids": [
+          "idea-stale-001",
+          "episodic-state-001"
+        ],
+        "status": "ok"
+      },
+      "passed": true,
+      "query": "older episodic implementation note refresh required",
+      "role": "research_scout"
+    },
+    {
+      "case_id": "memory_unknown_role_fail_closed",
+      "checks": {
+        "expected_error_present": true,
+        "retrieval_not_returned": true
+      },
+      "expectation": "unknown roles fail closed instead of retrieving context",
+      "observed": {
+        "blocked_reasons": [],
+        "blocked_refs": [],
+        "error": "unknown role: unbounded_agent",
+        "memory_types_checked": [],
+        "restricted_content_leaked": false,
+        "retrieved_source_ids": [],
+        "review_required": true,
+        "source_kinds_checked": [],
+        "stale_source_ids": [],
+        "status": "failed_closed"
+      },
+      "passed": true,
+      "query": "read everything",
+      "role": "unbounded_agent"
+    }
+  ],
+  "failed_closed_count": 1,
+  "failed_count": 0,
+  "passed_count": 4,
+  "restricted_leak_count": 0,
+  "review_required_count": 4,
+  "reviewed_at": "2026-06-02T00:00:00Z",
+  "stale_source_count": 2
+}

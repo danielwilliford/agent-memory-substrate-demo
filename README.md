@@ -6,6 +6,20 @@ The point is not the runner. Hermes, Pi Agent, Codex, LangGraph, or another harn
 
 This repo uses synthetic data and deterministic local similarity so a reviewer can run it without installing an agent framework, npm package, vector database, or embedding model.
 
+## Start Here
+
+Business problem: agent teams need useful context, but they should not receive every note, session, tool trace, or restricted memory surface by default.
+
+What this proves: memory can be represented as an inspectable contract with memory type, source provenance, role permissions, retrieval hits, blocked hits, redaction, freshness labels, telemetry, and human-review handoff.
+
+One-command verification:
+
+```bash
+make verify
+```
+
+What is intentionally not included: private notes, raw session logs, live vector databases, embeddings, model calls, credentials, or a production memory service.
+
 ## What It Shows
 
 - memory records using the four PDR memory terms: `episodic`, `semantic`, `procedural`, and `working`
@@ -20,8 +34,12 @@ This repo uses synthetic data and deterministic local similarity so a reviewer c
 - `agent_memory_substrate/substrate.py`: demo substrate, role policy checks, retrieval packet construction, telemetry, and human-review packet adapter shape
 - `agent_memory_substrate/scoring.py`: deterministic local scorer used instead of external embeddings
 - `agent_memory_substrate/demo.py`: CLI entry point that emits a reviewable JSON packet
+- `agent_memory_substrate/control_reports.py`: deterministic report generator for retrieval, redaction, stale-source, and fail-closed controls
 - `examples/`: synthetic working, semantic, procedural, episodic, and tool-trace examples
-- `tests/`: checks for PDR mapping, role-scoped retrieval, blocked context redaction, stale labels, unknown-role fail-closed behavior, CLI output, and synthetic-data boundaries
+- `examples/control_reports/`: generated public control artifacts
+- `schemas/`: JSON Schema contracts for generated control reports
+- `docs/public-proof-map.md`: file-by-file map from public claims to tests, schemas, and artifacts
+- `tests/`: checks for PDR mapping, role-scoped retrieval, blocked context redaction, stale labels, unknown-role fail-closed behavior, report validation, CLI output, and synthetic-data boundaries
 
 ## Quick Start
 
@@ -39,11 +57,19 @@ Run only the demo packet:
 python -m agent_memory_substrate.demo
 ```
 
+Regenerate the deterministic memory-control report:
+
+```bash
+make reports
+```
+
 Current local validation when reviewed:
 
 ```text
 make verify
 ```
+
+The generated report at `examples/control_reports/memory_control_report.json` is validated against `schemas/memory_control_report.json`.
 
 ## PDR Memory Mapping
 
@@ -74,6 +100,16 @@ The intended composition is: this memory substrate defines how context is repres
 - `research_scout` can inspect public semantic, procedural, episodic, and working memory.
 - `quant_strategy_reviewer` can inspect approved semantic, procedural, and working memory, but restricted strategy content and all episodic source kinds are blocked.
 - `security_reviewer` can inspect all four memory types, including access-boundary records.
+
+## Enterprise Upgrade Path
+
+The current repo is a public contract demo. An enterprise version would add:
+
+- authenticated role and policy management
+- durable memory storage with retention and review workflows
+- embedding/vector retrieval behind the same permission checks
+- audit logs for selected, denied, stale, and redacted context
+- integration with workflow services that consume retrieval packets and approval handoffs
 
 ## Public Boundary
 
